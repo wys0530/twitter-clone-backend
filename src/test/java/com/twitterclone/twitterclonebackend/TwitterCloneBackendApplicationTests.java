@@ -1,10 +1,10 @@
-package com.twitterclone.twitterclone;
+package com.twitterclone.twitterclonebackend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TwitterCloneApplicationTests {
+class TwitterCloneBackendApplicationTests {
 
     @Test
     void contextLoads() {

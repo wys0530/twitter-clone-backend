@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.twitter-clone'
 version = '0.0.1-SNAPSHOT'
-description = 'twitter-clone'
+description = 'twitter-clone-backend'
 
 java {
     toolchain {

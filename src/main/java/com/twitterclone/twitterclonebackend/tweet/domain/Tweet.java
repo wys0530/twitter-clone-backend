@@ -19,6 +19,9 @@ public class Tweet extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
+    private int viewCount;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -26,5 +29,10 @@ public class Tweet extends BaseEntity {
     public Tweet(String content, User user) {
         this.content = content;
         this.user = user;
+        this.viewCount = 0;
+    }
+
+    public void increaseViewCount() {
+        this.viewCount++;
     }
 }

@@ -5,6 +5,7 @@ import com.twitterclone.twitterclonebackend.global.exception.ErrorCode;
 import com.twitterclone.twitterclonebackend.tweet.domain.Tweet;
 import com.twitterclone.twitterclonebackend.tweet.dto.request.TweetCreateRequest;
 import com.twitterclone.twitterclonebackend.tweet.dto.response.TweetCreateResponse;
+import com.twitterclone.twitterclonebackend.tweet.dto.response.TweetDetailResponse;
 import com.twitterclone.twitterclonebackend.tweet.repository.TweetRepository;
 import com.twitterclone.twitterclonebackend.user.domain.User;
 import com.twitterclone.twitterclonebackend.user.repository.UserRepository;
@@ -19,6 +20,7 @@ public class TweetService {
     private final TweetRepository tweetRepository;
     private final UserRepository userRepository;
 
+    //트윗 작성
     @Transactional
     public TweetCreateResponse createTweet(Long userId, TweetCreateRequest request) {
 
@@ -30,5 +32,17 @@ public class TweetService {
         Tweet savedTweet = tweetRepository.save(tweet);
 
         return TweetCreateResponse.from(savedTweet);
+    }
+
+    //트윗 개별 조회
+    @Transactional
+    public TweetDetailResponse getTweet(Long tweetId) {
+
+        Tweet tweet = tweetRepository.findById(tweetId)
+                .orElseThrow(() -> new CustomException(ErrorCode.TWEET_NOT_FOUND));
+
+        tweet.increaseViewCount();
+
+        return TweetDetailResponse.from(tweet);
     }
 }

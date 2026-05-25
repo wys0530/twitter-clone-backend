@@ -2,6 +2,7 @@ package com.twitterclone.twitterclonebackend.reply.controller;
 
 import com.twitterclone.twitterclonebackend.reply.dto.request.ReplyCreateRequest;
 import com.twitterclone.twitterclonebackend.reply.dto.response.ReplyCreateResponse;
+import com.twitterclone.twitterclonebackend.reply.dto.response.ReplyListResponse;
 import com.twitterclone.twitterclonebackend.reply.service.ReplyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,5 +24,11 @@ public class ReplyController {
             @Valid @RequestBody ReplyCreateRequest request
     ) {
         return replyService.createReply(tweetId, userId, request);
+    }
+
+    //트윗별 답글 조회
+    @GetMapping
+    public ReplyListResponse getReplies(@PathVariable Long tweetId) {
+        return replyService.getReplies(tweetId);
     }
 }

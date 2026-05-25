@@ -7,28 +7,40 @@ import com.twitterclone.twitterclonebackend.reply.service.ReplyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/tweets/{tweetId}/replies")
 public class ReplyController {
 
     private final ReplyService replyService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ReplyCreateResponse createReply(
+    //답글 작성
+    @PostMapping("/tweets/{tweetId}/replies")
+    public ResponseEntity<ReplyCreateResponse> createReply(
             @PathVariable Long tweetId,
             @RequestHeader("Auth-id") Long userId,
             @Valid @RequestBody ReplyCreateRequest request
     ) {
-        return replyService.createReply(tweetId, userId, request);
+        ReplyCreateResponse response = replyService.createReply(tweetId, userId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+
     //트윗별 답글 조회
-    @GetMapping
-    public ReplyListResponse getReplies(@PathVariable Long tweetId) {
-        return replyService.getReplies(tweetId);
+    @GetMapping("/tweets/{tweetId}/replies")
+    public ResponseEntity<ReplyListResponse> getReplies(@PathVariable Long tweetId) {
+        return ResponseEntity.ok(replyService.getReplies(tweetId));
+    }
+
+    //답글 삭제
+    @DeleteMapping("/replies/{replyId}")
+    public ResponseEntity<Void> deleteReply(
+            @PathVariable Long replyId,
+            @RequestHeader("Auth-id") Long userId
+    ) {
+        replyService.deleteReply(replyId, userId);
+        return ResponseEntity.noContent().build();
     }
 }

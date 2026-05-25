@@ -4,6 +4,7 @@ import com.twitterclone.twitterclonebackend.tweet.dto.response.TweetUserListResp
 import com.twitterclone.twitterclonebackend.user.dto.UserResponse;
 import com.twitterclone.twitterclonebackend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,13 +15,13 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{userId}")
-    public UserResponse getUser(@PathVariable Long userId) {
-        return userService.getUser(userId);
+    public ResponseEntity<UserResponse> getUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.getUser(userId));
     }
 
     @GetMapping("/{userId}/tweets")
-    public TweetUserListResponse getUserTweets(@PathVariable Long userId) {
-        return userService.getUserTweets(userId);
+    public ResponseEntity<TweetUserListResponse> getUserTweets(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.getUserTweets(userId));
     }
 
 }

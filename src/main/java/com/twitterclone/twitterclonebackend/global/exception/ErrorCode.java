@@ -18,6 +18,7 @@ public enum ErrorCode {
     TWEET_NOT_FOUND(404, "존재하지 않는 트윗입니다."),
 
     //reply
+    REPLY_FORBIDDEN(403, "권한이 없는 사용자입니다."),
     REPLY_NOT_FOUND(404, "존재하지 않는 답글입니다.");
 
     private final int status;

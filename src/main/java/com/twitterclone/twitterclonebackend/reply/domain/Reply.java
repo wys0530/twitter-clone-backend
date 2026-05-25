@@ -33,4 +33,9 @@ public class Reply extends BaseEntity {
         this.tweet = tweet;
         this.user = user;
     }
+
+    //작성자 검증
+    public boolean isWrittenBy(Long userId) {
+        return this.user.getUserId().equals(userId);
+    }
 }

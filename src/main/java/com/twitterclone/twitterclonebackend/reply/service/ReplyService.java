@@ -60,4 +60,17 @@ public class ReplyService {
 
         return new ReplyListResponse(replies, replies.size());
     }
+
+    //답글 삭제
+    @Transactional
+    public void deleteReply(Long replyId, Long userId) {
+        Reply reply = replyRepository.findById(replyId)
+                .orElseThrow(() -> new CustomException(ErrorCode.REPLY_NOT_FOUND));
+
+        if (!reply.isWrittenBy(userId)) {
+            throw new CustomException(ErrorCode.REPLY_FORBIDDEN);
+        }
+
+        replyRepository.delete(reply);
+    }
 }

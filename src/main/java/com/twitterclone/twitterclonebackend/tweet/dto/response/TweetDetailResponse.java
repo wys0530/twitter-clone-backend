@@ -15,14 +15,14 @@ public record TweetDetailResponse(
         int retweetCount,
         int viewCount
 ) {
-    public static TweetDetailResponse from(Tweet tweet) {
+    public static TweetDetailResponse from(Tweet tweet, int replyCount) {
         return new TweetDetailResponse(
                 tweet.getTweetId(),
                 UserSummaryResponse.from(tweet.getUser()),
                 tweet.getContent(),
                 tweet.getCreatedAt(),
                 0,
-                0,
+                replyCount,
                 0,
                 tweet.getViewCount()
         );

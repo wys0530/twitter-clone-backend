@@ -2,6 +2,7 @@ package com.twitterclone.twitterclonebackend.tweet.service;
 
 import com.twitterclone.twitterclonebackend.global.exception.CustomException;
 import com.twitterclone.twitterclonebackend.global.exception.ErrorCode;
+import com.twitterclone.twitterclonebackend.reply.repository.ReplyRepository;
 import com.twitterclone.twitterclonebackend.tweet.domain.Tweet;
 import com.twitterclone.twitterclonebackend.tweet.dto.request.TweetCreateRequest;
 import com.twitterclone.twitterclonebackend.tweet.dto.response.TweetCreateResponse;
@@ -22,6 +23,7 @@ public class TweetService {
 
     private final TweetRepository tweetRepository;
     private final UserRepository userRepository;
+    private final ReplyRepository replyRepository;
 
     //트윗 작성
     @Transactional
@@ -45,8 +47,9 @@ public class TweetService {
                 .orElseThrow(() -> new CustomException(ErrorCode.TWEET_NOT_FOUND));
 
         tweet.increaseViewCount();
+        int replyCount = replyRepository.countByTweet_TweetId(tweet.getTweetId());
 
-        return TweetDetailResponse.from(tweet);
+        return TweetDetailResponse.from(tweet, replyCount);
     }
 
     //트윗 전체 조회
@@ -54,7 +57,10 @@ public class TweetService {
     public TweetListResponse getTweets() {
         List<TweetDetailResponse> tweets = tweetRepository.findAllByOrderByCreatedAtDesc()
                 .stream()
-                .map(TweetDetailResponse::from)
+                .map(tweet -> TweetDetailResponse.from(
+                        tweet,
+                        replyRepository.countByTweet_TweetId(tweet.getTweetId())
+                ))
                 .toList();
 
         return new TweetListResponse(tweets);

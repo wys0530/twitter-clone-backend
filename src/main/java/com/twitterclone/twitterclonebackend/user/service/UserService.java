@@ -2,6 +2,7 @@ package com.twitterclone.twitterclonebackend.user.service;
 
 import com.twitterclone.twitterclonebackend.global.exception.CustomException;
 import com.twitterclone.twitterclonebackend.global.exception.ErrorCode;
+import com.twitterclone.twitterclonebackend.reply.repository.ReplyRepository;
 import com.twitterclone.twitterclonebackend.tweet.dto.response.TweetDetailResponse;
 import com.twitterclone.twitterclonebackend.tweet.dto.response.TweetUserListResponse;
 import com.twitterclone.twitterclonebackend.tweet.repository.TweetRepository;
@@ -20,6 +21,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final TweetRepository tweetRepository;
+    private final ReplyRepository replyRepository;
 
     @Transactional(readOnly = true)
     public UserResponse getUser(Long userId) {
@@ -37,7 +39,10 @@ public class UserService {
 
         List<TweetDetailResponse> tweets = tweetRepository.findAllByUser_UserIdOrderByCreatedAtDesc(user.getUserId())
                 .stream()
-                .map(TweetDetailResponse::from)
+                .map(tweet -> TweetDetailResponse.from(
+                        tweet,
+                        replyRepository.countByTweet_TweetId(tweet.getTweetId())
+                ))
                 .toList();
 
         return new TweetUserListResponse(tweets, tweets.size());

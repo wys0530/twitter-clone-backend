@@ -38,4 +38,14 @@ public class TweetController {
     public TweetListResponse getTweets() {
         return tweetService.getTweets();
     }
+
+    //트윗 삭제
+    @DeleteMapping("/{tweetId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTweet(
+            @PathVariable Long tweetId,
+            @RequestHeader("Auth-id") Long userId
+    ) {
+        tweetService.deleteTweet(tweetId, userId);
+    }
 }

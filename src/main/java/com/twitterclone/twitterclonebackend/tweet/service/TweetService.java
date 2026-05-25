@@ -59,4 +59,17 @@ public class TweetService {
 
         return new TweetListResponse(tweets);
     }
+
+    //트윗 삭제
+    @Transactional
+    public void deleteTweet(Long tweetId, Long userId) {
+        Tweet tweet = tweetRepository.findById(tweetId)
+                .orElseThrow(() -> new CustomException(ErrorCode.TWEET_NOT_FOUND));
+
+        if (!tweet.isWrittenBy(userId)) {
+            throw new CustomException(ErrorCode.TWEET_FORBIDDEN);
+        }
+
+        tweetRepository.delete(tweet);
+    }
 }

@@ -32,7 +32,13 @@ public class Tweet extends BaseEntity {
         this.viewCount = 0;
     }
 
+    //조회수 증가
     public void increaseViewCount() {
         this.viewCount++;
+    }
+
+    //작성자 검증
+    public boolean isWrittenBy(Long userId) {
+        return this.user.getUserId().equals(userId);
     }
 }

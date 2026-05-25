@@ -6,12 +6,15 @@ import com.twitterclone.twitterclonebackend.tweet.domain.Tweet;
 import com.twitterclone.twitterclonebackend.tweet.dto.request.TweetCreateRequest;
 import com.twitterclone.twitterclonebackend.tweet.dto.response.TweetCreateResponse;
 import com.twitterclone.twitterclonebackend.tweet.dto.response.TweetDetailResponse;
+import com.twitterclone.twitterclonebackend.tweet.dto.response.TweetListResponse;
 import com.twitterclone.twitterclonebackend.tweet.repository.TweetRepository;
 import com.twitterclone.twitterclonebackend.user.domain.User;
 import com.twitterclone.twitterclonebackend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +47,16 @@ public class TweetService {
         tweet.increaseViewCount();
 
         return TweetDetailResponse.from(tweet);
+    }
+
+    //트윗 전체 조회
+    @Transactional(readOnly = true)
+    public TweetListResponse getTweets() {
+        List<TweetDetailResponse> tweets = tweetRepository.findAllByOrderByCreatedAtDesc()
+                .stream()
+                .map(TweetDetailResponse::from)
+                .toList();
+
+        return new TweetListResponse(tweets);
     }
 }

@@ -3,6 +3,7 @@ package com.twitterclone.twitterclonebackend.tweet.controller;
 import com.twitterclone.twitterclonebackend.tweet.dto.request.TweetCreateRequest;
 import com.twitterclone.twitterclonebackend.tweet.dto.response.TweetCreateResponse;
 import com.twitterclone.twitterclonebackend.tweet.dto.response.TweetDetailResponse;
+import com.twitterclone.twitterclonebackend.tweet.dto.response.TweetListResponse;
 import com.twitterclone.twitterclonebackend.tweet.service.TweetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +31,11 @@ public class TweetController {
     @GetMapping("/{tweetId}")
     public TweetDetailResponse getTweet(@PathVariable Long tweetId) {
         return tweetService.getTweet(tweetId);
+    }
+
+    //트윗 전체 조회
+    @GetMapping
+    public TweetListResponse getTweets() {
+        return tweetService.getTweets();
     }
 }

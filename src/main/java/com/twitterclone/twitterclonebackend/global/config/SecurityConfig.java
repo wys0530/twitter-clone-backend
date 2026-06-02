@@ -22,7 +22,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        
+
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:5173", "https://efub6-intern-toyproject-team5.vercel.app"));
         configuration.setAllowedMethods(List.of("*"));
@@ -45,7 +45,6 @@ public class SecurityConfig {
         http.httpBasic(AbstractHttpConfigurer::disable);
 
         http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers().permitAll()
                 .anyRequest().permitAll()
         );
 

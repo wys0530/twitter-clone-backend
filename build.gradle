@@ -36,3 +36,7 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+}

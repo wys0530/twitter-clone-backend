@@ -23,8 +23,15 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:5173", "https://efub6-intern-toyproject-team5.vercel.app"));
+//        configuration.setAllowedOrigins(Arrays.asList(
+//                "http://localhost:5173", "https://efub6-intern-toyproject-team5.vercel.app"));
+
+        //와일드카드 패턴으로 추가. Spring Boot 2.4 (Spring Framework 5.3)지원하는 메소드.
+        configuration.setAllowedOriginPatterns(Arrays.asList(
+                "http://localhost:*",
+                "https://efub6-intern-toyproject-team5.vercel.app"
+        ));
+
         configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

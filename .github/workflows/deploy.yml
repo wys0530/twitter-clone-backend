@@ -2,7 +2,7 @@ name: Deploy to EC2
 
 on:
   push:
-    branches: [ deploy ]  # 트리거 브랜치
+    branches: [ week7 ]  # 트리거 브랜치
 
 jobs:
   deploy:

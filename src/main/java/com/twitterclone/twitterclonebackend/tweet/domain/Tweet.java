@@ -1,11 +1,15 @@
 package com.twitterclone.twitterclonebackend.tweet.domain;
 
 import com.twitterclone.twitterclonebackend.global.domain.BaseEntity;
+import com.twitterclone.twitterclonebackend.reply.domain.Reply;
 import com.twitterclone.twitterclonebackend.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,6 +29,13 @@ public class Tweet extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(
+            mappedBy = "tweet",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true
+    )
+    private List<Reply> replies = new ArrayList<>();
 
     public Tweet(String content, User user) {
         this.content = content;

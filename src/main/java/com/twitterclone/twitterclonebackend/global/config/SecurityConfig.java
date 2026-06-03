@@ -29,6 +29,7 @@ public class SecurityConfig {
         //와일드카드 패턴으로 추가. Spring Boot 2.4 (Spring Framework 5.3)지원하는 메소드.
         configuration.setAllowedOriginPatterns(Arrays.asList(
                 "http://localhost:*",
+                "https://efub6-intern-toyproject-team5-jlp2.vercel.app",
                 "https://efub6-intern-toyproject-team5.vercel.app"
         ));
 
